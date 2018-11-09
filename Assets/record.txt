@@ -1,0 +1,16 @@
+bright
+
+build-science
+leader
+reward
+
+grain
+iron
+science
+culture
+
+
+https://github.com/12cry/testCC
+git branch --set-upstream-to=https://github.com/12cry/testCC master
+git branch --set-upstream-to=https://github.com/12cry/testCC/master
+git pull https://github.com/12cry/testCC master
