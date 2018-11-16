@@ -564,7 +564,7 @@ Prefab:
     - target: {fileID: 224165573591590236, guid: eea9b3b632242c543bb9e2a526f538db,
         type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 349
       objectReference: {fileID: 0}
     - target: {fileID: 224165573591590236, guid: eea9b3b632242c543bb9e2a526f538db,
         type: 2}
@@ -594,12 +594,12 @@ Prefab:
     - target: {fileID: 224165573591590236, guid: eea9b3b632242c543bb9e2a526f538db,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 35
+      value: -950
       objectReference: {fileID: 0}
     - target: {fileID: 224165573591590236, guid: eea9b3b632242c543bb9e2a526f538db,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 69
+      value: -960
       objectReference: {fileID: 0}
     - target: {fileID: 224165573591590236, guid: eea9b3b632242c543bb9e2a526f538db,
         type: 2}
@@ -641,6 +641,17 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114849684634898360, guid: eea9b3b632242c543bb9e2a526f538db,
+        type: 2}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 114897738503471120, guid: eea9b3b632242c543bb9e2a526f538db,
+        type: 2}
+    - target: {fileID: 114849684634898360, guid: eea9b3b632242c543bb9e2a526f538db,
+        type: 2}
+      propertyPath: t
+      value: 
+      objectReference: {fileID: 2800000, guid: 6c4edad3cfb42e04d99e804026c8b977, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eea9b3b632242c543bb9e2a526f538db, type: 2}
   m_IsPrefabParent: 0
@@ -827,11 +838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardLibrary2: {fileID: 0}
-  darkCardList1:
-  - science: 0
-  - science: 0
   t1:
     a: 0
+    texture: {fileID: 0}
   t1List: []
   aa: 0
 --- !u!224 &1138951332

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using DG.Tweening;
 using UnityEngine;
 public class GCtrl : MonoBehaviour {
@@ -8,12 +10,15 @@ public class GCtrl : MonoBehaviour {
 	public Transform tf2;
 	Tweener t1;
 	void Start () {
-		init();
+		init ();
 	}
 
 	void init () {
 		// CardLibrary cardLibrary = GConfig.instance.cardLibrary;
 		// List<Card> brightCardList1 = cardLibrary.BrightCardList1;
+		// string json = File.ReadAllText ("card/card.json", Encoding.UTF8);
+		// JsonUtility.FromJson (json);
+		print ("---init");
 	}
 
 	public void run () {
@@ -31,7 +36,23 @@ public class GCtrl : MonoBehaviour {
 
 		print ("---reset");
 		print (t1);
-		t1.Rewind (false);
+		// t1.Rewind (false);
 
+		testJson ();
+	}
+
+	void testJson () {
+		print ("---testJson");
+
+		string json = File.ReadAllText ("./Assets/script/card.json", Encoding.UTF8);
+		List<CardBuild> cardBuildList = JsonUtility.FromJson<List<CardBuild>> (json);
+		print (cardBuildList.Count);
+
+		List<Card> cardList = new List<Card> ();
+		// cardBuildList.ForEach (card => {
+		// 	print (card.cardName);
+		// 	print (card.science);
+		// });
+		// cardList.Add(cardBuildList);
 	}
 }

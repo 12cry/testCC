@@ -12,14 +12,21 @@ MonoBehaviour:
   m_Name: cardLibrary
   m_EditorClassIdentifier: 
   darkCardList1:
-  - science: 0
-  - science: 0
+  - cardName: 
+    texture: {fileID: 0}
+    science: 0
+  - cardName: 
+    texture: {fileID: 0}
+    science: 0
   card2:
+    cardName: 
+    texture: {fileID: 0}
     science: 0
   t1:
     a: 0
+    texture: {fileID: 0}
   t1List:
   - a: 0
+    texture: {fileID: 0}
   - a: 0
-  - a: 0
-  - a: 0
+    texture: {fileID: 0}

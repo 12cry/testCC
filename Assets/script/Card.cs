@@ -1,10 +1,12 @@
 using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-[Serializable]
-public abstract class Card
-{
-    public string name2;
+
+public abstract class Card {
+    public string cardName;
+    public int age;
+    // public Texture texture;
     public abstract void action ();
 }

@@ -1,10 +1,9 @@
 using System;
 
-[Serializable]
-public class CardBuild {
+public class CardBuild : Card {
     public int science;
 
-    // public override void action () {
-    //     throw new System.NotImplementedException ();
-    // }
+    public override void action () {
+        throw new System.NotImplementedException ();
+    }
 }
