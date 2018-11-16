@@ -11,3 +11,9 @@ culture
 
 farm
 mine
+
+
+Install-Package Newtonsoft.Json
+
+camera
+orthographicSize

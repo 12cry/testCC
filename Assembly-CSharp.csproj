@@ -73,6 +73,7 @@
      <Compile Include="Assets\script\Card.cs" />
      <Compile Include="Assets\script\CardBuild.cs" />
      <Compile Include="Assets\script\CardLibrary.cs" />
+     <Compile Include="Assets\script\CardCtrl.cs" />
      <Compile Include="Assets\script\CardReward.cs" />
      <Compile Include="Assets\script\GConfig.cs" />
      <Compile Include="Assets\script\GCtrl.cs" />
