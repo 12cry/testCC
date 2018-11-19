@@ -7,6 +7,4 @@ public class CardLibrary : ScriptableObject {
     public List<CardBuild> darkCardList1;
     public Card card;
     public CardBuild card2;
-    public T1 t1;
-    public List<T1> t1List;
 }
