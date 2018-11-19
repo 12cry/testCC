@@ -1,7 +1,7 @@
 using System;
 
 public class CardBuild : Card {
-    public int science;
+    public int costScience;
 
     public override void action () {
         

@@ -2,11 +2,21 @@
   {
     "cardName": "farm1",
     "age": 1,
-    "science": 2
+    "costScience": 2
+  },
+  {
+    "cardName": "farm2",
+    "age": 2,
+    "costScience": 4
   },
   {
     "cardName": "mine1",
     "age": 1,
-    "science": 2
+    "costScience": 3
+  },
+  {
+    "cardName": "temple1",
+    "age": 1,
+    "costScience": 3
   }
 ]
