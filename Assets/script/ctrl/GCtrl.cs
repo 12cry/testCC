@@ -42,50 +42,64 @@ namespace testCC.Assets.script {
 			// run ();
 		}
 
+		CardCtrl getANewCard () {
+			if (remainderCards.Count == 0) {
+				return null;
+			}
+			CardCtrl cardCtrl = remainderCards.Dequeue ();
+			Card card = cardCtrl.card;
+			Text[] texts = cardCtrl.GetComponentsInChildren<Text> ();
+			Dictionary<string, Text> textDic = texts.ToDictionary (key => key.name, text => text);
+			textDic["cardName"].text = card.cardName;
+			if (card is CardBuild) {
+				textDic["costScience"].text = ((CardBuild) card).costScience.ToString ();
+			}
+			return cardCtrl;
+		}
 		public void computeCurrentCards () {
-
-			Queue<CardCtrl> oldCurrentCards = new Queue<CardCtrl> ();
 			Queue<CardCtrl> newCurrentCards = new Queue<CardCtrl> ();
 
+			CardCtrl cardCtrl;
+			int removeCardNum = 1;
+			int newCardNum = currentCardLimitNum;
 			for (int i = 0; i < currentCardLimitNum; i++) {
-				CardCtrl cardCtrl = currentCards.Dequeue ();
-				if (cardCtrl == null) {
-					if (over) {
-						continue;
-					}
-					cardCtrl = remainderCards.Dequeue ();
-					if (cardCtrl == null) {
-						over = true;
-						continue;
-					}
-					Card card = cardCtrl.card;
-					Text[] texts = cardCtrl.GetComponentsInChildren<Text> ();
-					Dictionary<string, Text> textDic = texts.ToDictionary (key => key.name, text => text);
-					textDic["cardName"].text = card.cardName;
-					if (card is CardBuild) {
-						textDic["costScience"].text = ((CardBuild) card).costScience.ToString ();
-					}
-					newCurrentCards.Enqueue (cardCtrl);
+				if (currentCards.Count == 0) {
+					break;
+				}
+				cardCtrl = currentCards.Dequeue ();
+				if (removeCardNum > 0) {
+					removeCardNum--;
+					Object.Destroy (cardCtrl.gameObject);
 				} else {
-					oldCurrentCards.Enqueue (cardCtrl);
+					newCurrentCards.Enqueue (cardCtrl);
+					newCardNum--;
 				}
 			}
-			oldCurrentCards.Concat (newCurrentCards);
-			currentCards = oldCurrentCards;
+			for (int i = 0; i < newCardNum; i++) {
+				cardCtrl = getANewCard ();
+				if (cardCtrl == null) {
+					over = true;
+					break;
+				}
+				newCurrentCards.Enqueue (cardCtrl);
+			}
 
+			currentCards = newCurrentCards;
 		}
 		public void showCurrentCards () {
 			CardCtrl cardCtrl;
-			int i = 0;
-			while ((cardCtrl = currentCards.Dequeue ()) != null) {
-				cardCtrl.transform.DOMove (new Vector3 (cardWidth / 2 + i++ * cardWidth, Screen.height - cardWidth / 2, 0), 1);
+			int count = currentCards.Count;
+			int i=0;
+			while (currentCards.Count > 0) {
+				cardCtrl = currentCards.Dequeue ();
+				cardCtrl.transform.DOMove (new Vector3 (cardWidth / 2 + i++ * cardWidth, Screen.height - cardWidth / 2, 0), 2);
 			}
 		}
 
 		public void run () {
 			print ("---run");
-			print (Screen.width);
-			print (Screen.height);
+			// print (Screen.width);
+			// print (Screen.height);
 
 			if (over) {
 				print ("---over");
@@ -97,8 +111,21 @@ namespace testCC.Assets.script {
 		}
 		public void reset () {
 			print ("---reset");
-			print (t1);
 			// t1.Rewind (false);
+
+			while (remainderCards.Count != 0) {
+				print ("---remainderCards");
+				CardCtrl cardCtrl = remainderCards.Dequeue ();
+				Object.Destroy (cardCtrl.gameObject);
+			}
+
+			while (currentCards.Count != 0) {
+				print ("---currentCards");
+				CardCtrl cardCtrl = currentCards.Dequeue ();
+				Object.Destroy (cardCtrl.gameObject);
+			}
+			over = false;
+			init ();
 		}
 
 		public void test1 () {
