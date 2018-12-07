@@ -14,7 +14,7 @@ namespace testCC.Assets.script {
 
 		public CardCtrl cardCtrlPrefab;
 		public Queue<CardCtrl> remainderCards = new Queue<CardCtrl> ();
-		public Queue<CardCtrl> currentCards = new Queue<CardCtrl> ();
+		public CardCtrl[] currentCards;
 		Tweener t1;
 		int cardWidth = 100;
 		int currentCardLimitNum = 3;
@@ -39,6 +39,8 @@ namespace testCC.Assets.script {
 				card.cardCtrl = newCtrdCtrl;
 				remainderCards.Enqueue (newCtrdCtrl);
 			});
+
+			currentCards = new CardCtrl[currentCardLimitNum];
 			// run ();
 		}
 
@@ -57,42 +59,39 @@ namespace testCC.Assets.script {
 			return cardCtrl;
 		}
 		public void computeCurrentCards () {
-			Queue<CardCtrl> newCurrentCards = new Queue<CardCtrl> ();
-
 			CardCtrl cardCtrl;
 			int removeCardNum = 1;
-			int newCardNum = currentCardLimitNum;
+			int index = 0;
+
 			for (int i = 0; i < currentCardLimitNum; i++) {
-				if (currentCards.Count == 0) {
-					break;
+				cardCtrl = currentCards[i];
+				if (cardCtrl == null) {
+					continue;
 				}
-				cardCtrl = currentCards.Dequeue ();
-				if (removeCardNum > 0) {
-					removeCardNum--;
+				if (i <= removeCardNum) {
 					Object.Destroy (cardCtrl.gameObject);
 				} else {
-					newCurrentCards.Enqueue (cardCtrl);
-					newCardNum--;
+					currentCards[index] = cardCtrl;
+					currentCards[i] = null;
+					index++;
 				}
 			}
-			for (int i = 0; i < newCardNum; i++) {
+
+			for (int i = index; i < currentCardLimitNum; i++) {
 				cardCtrl = getANewCard ();
 				if (cardCtrl == null) {
 					over = true;
 					break;
 				}
-				newCurrentCards.Enqueue (cardCtrl);
+				currentCards[i] = cardCtrl;
 			}
 
-			currentCards = newCurrentCards;
 		}
 		public void showCurrentCards () {
-			CardCtrl cardCtrl;
-			int count = currentCards.Count;
-			int i=0;
-			while (currentCards.Count > 0) {
-				cardCtrl = currentCards.Dequeue ();
-				cardCtrl.transform.DOMove (new Vector3 (cardWidth / 2 + i++ * cardWidth, Screen.height - cardWidth / 2, 0), 2);
+			for (int i = 0; i < currentCardLimitNum; i++) {
+				if (currentCards[i] != null) {
+					currentCards[i].transform.DOMove (new Vector3 (cardWidth / 2 + i * cardWidth, Screen.height - cardWidth / 2, 0), 2);
+				}
 			}
 		}
 
@@ -119,10 +118,11 @@ namespace testCC.Assets.script {
 				Object.Destroy (cardCtrl.gameObject);
 			}
 
-			while (currentCards.Count != 0) {
-				print ("---currentCards");
-				CardCtrl cardCtrl = currentCards.Dequeue ();
-				Object.Destroy (cardCtrl.gameObject);
+			for (int i = 0; i < currentCardLimitNum; i++) {
+				if(currentCards[i]==null){
+					continue;
+				}
+				Object.Destroy (currentCards[i].gameObject);
 			}
 			over = false;
 			init ();

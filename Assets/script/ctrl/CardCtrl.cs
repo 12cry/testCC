@@ -6,6 +6,7 @@ namespace testCC.Assets.script {
         void Start () {
         }
         void OnMouseDown () {
+            print("---onMouseDown");
             card.see ();
         }
     }
