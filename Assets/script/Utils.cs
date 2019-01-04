@@ -10,10 +10,5 @@ namespace testCC.Assets.script {
         public static Card currentCard;
         public static List<CardCtrl> takedCardCtrls = new List<CardCtrl> ();
 
-        public static void hideButton () {
-            ButtonCloseCtrl.instance.gameObject.SetActive (false);
-            ButtonTakeCardCtrl.instance.gameObject.SetActive (false);
-            ButtonActionCardCtrl.instance.gameObject.SetActive (false);
-        }
     }
 }

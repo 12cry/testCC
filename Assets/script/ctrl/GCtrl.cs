@@ -53,7 +53,8 @@ namespace testCC.Assets.script {
 			Dictionary<string, Text> textDic = texts.ToDictionary (key => key.name, text => text);
 			textDic["cardName"].text = card.cardName;
 			if (card is CardBuild) {
-				textDic["costScience"].text = ((CardBuild) card).input[0].ToString ();
+				CardBuild cb = (CardBuild) card;
+				textDic["costScience"].text = cb.cost.science.ToString ();
 			}
 			return cardCtrl;
 		}
@@ -98,6 +99,8 @@ namespace testCC.Assets.script {
 				currentCardCtrls[i].card.canAction = false;
 				currentCardCtrls[i].card.canTake = true;
 				currentCardCtrls[i].transform.DOMove (new Vector3 (Utils.cardWidth / 2 + i * Utils.cardWidth, Screen.height - Utils.cardWidth / 2, 0), 2);
+
+				currentCardCtrls[i].card.takeCiv = 1 + i / 5;
 			}
 		}
 

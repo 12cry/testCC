@@ -15,7 +15,11 @@ namespace testCC.Assets.script.ctrl {
         public Text cultureText;
         public Text cultureIncrementText;
 
+        public Text civText;
+        public Text civTextRemainder;
+
         public Resource resource;
+
         void Awake () {
             resource = new Resource ();
             Utils.resource = resource;
@@ -29,9 +33,15 @@ namespace testCC.Assets.script.ctrl {
             resource.updateRemainderDisplay += updateRemainderDisplay;
             resource.updateAllDisplay += updateAllDisplay;
 
+            resource.updateCivDisplay += updateCivDisplay;
+
             resource.init ();
         }
 
+        public void updateCivDisplay () {
+            civText.text = this.resource.civ.ToString ();
+            civTextRemainder.text = this.resource.civRemainder.ToString ();
+        }
         public void updateFoodIncrementDisplay () {
             foodIncrementText.text = this.resource.foodIncrement.ToString ();
         }
@@ -55,6 +65,7 @@ namespace testCC.Assets.script.ctrl {
             this.updateCapacityIncrementDisplay ();
             this.updateScienceIncrementDisplay ();
             this.updateCultureIncrementDisplay ();
+            this.updateCivDisplay ();
         }
         public void updateRemainderDisplay () {
             this.foodText.text = this.resource.food.ToString ();

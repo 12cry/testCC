@@ -7,7 +7,9 @@ namespace testCC.Assets.script.ctrl {
             base.Awake ();
         }
 
+        public Button bTakeCard;
         public Button bActionCard;
+        public Button bCloseCard;
 
         public void takeCard () {
             Utils.currentCard.take ();
@@ -16,10 +18,30 @@ namespace testCC.Assets.script.ctrl {
             Utils.currentCard.action ();
         }
         public void closeCard () {
-            Utils.currentCard.close ();
+            Utils.currentCard.closeView ();
+        }
+        public void hideBTakeCard () {
+            bTakeCard.gameObject.SetActive (false);
         }
         public void hideBActionCard () {
             bActionCard.gameObject.SetActive (false);
+        }
+        public void hideBCloseCard () {
+            bCloseCard.gameObject.SetActive (false);
+        }
+        public void showBTakeCard () {
+            bTakeCard.gameObject.SetActive (true);
+        }
+        public void showBActionCard () {
+            bActionCard.gameObject.SetActive (true);
+        }
+        public void showBCloseCard () {
+            bCloseCard.gameObject.SetActive (true);
+        }
+        public void hideSeeButton () {
+            this.hideBTakeCard ();
+            this.hideBActionCard ();
+            this.hideBCloseCard ();
         }
     }
 }

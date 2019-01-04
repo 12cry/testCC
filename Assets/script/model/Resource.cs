@@ -11,6 +11,9 @@ namespace testCC.Assets.script.model {
         public int culture;
         public int cultureIncrement;
 
+        public int civ;
+        public int civRemainder;
+
         public event Action updateFoodIncrementDisplay;
         public event Action updateCapacityIncrementDisplay;
         public event Action updateScienceIncrementDisplay;
@@ -20,6 +23,17 @@ namespace testCC.Assets.script.model {
         public event Action updateRemainderDisplay;
         public event Action updateAllDisplay;
 
+        public event Action updateCivDisplay;
+
+        public void updateCiv (int value) {
+            if (value == 0) {
+                return;
+            }
+
+            this.civRemainder -= value;
+            this.updateCivDisplay ();
+        }
+
         public void init () {
             this.food = 0;
             this.foodIncrement = 2;
@@ -28,7 +42,9 @@ namespace testCC.Assets.script.model {
             this.science = 0;
             this.scienceIncrement = 2;
             this.culture = 0;
-            this.culture = 0;
+            this.cultureIncrement = 0;
+            this.civ = 4;
+            this.civRemainder = 4;
             this.updateAllDisplay ();
         }
         public void updateFoodIncrement (int value) {
