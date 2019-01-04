@@ -13,10 +13,9 @@ namespace testCC.Assets.script {
 	public class GCtrl : MonoBehaviour {
 
 		public CardCtrl cardCtrlPrefab;
-		public Queue<CardCtrl> remainderCards = new Queue<CardCtrl> ();
-		public CardCtrl[] currentCards;
+		public Queue<CardCtrl> remainderCardCtrls = new Queue<CardCtrl> ();
+		public CardCtrl[] currentCardCtrls;
 		Tweener t1;
-		int cardWidth = 100;
 		int currentCardLimitNum = 3;
 		bool over = false;
 		void Start () {
@@ -37,24 +36,24 @@ namespace testCC.Assets.script {
 				CardCtrl newCtrdCtrl = Instantiate<CardCtrl> (cardCtrlPrefab, cardCtrlPrefab.transform.parent);
 				newCtrdCtrl.card = card;
 				card.cardCtrl = newCtrdCtrl;
-				remainderCards.Enqueue (newCtrdCtrl);
+				remainderCardCtrls.Enqueue (newCtrdCtrl);
 			});
 
-			currentCards = new CardCtrl[currentCardLimitNum];
+			currentCardCtrls = new CardCtrl[currentCardLimitNum];
 			// run ();
 		}
 
 		CardCtrl getANewCard () {
-			if (remainderCards.Count == 0) {
+			if (remainderCardCtrls.Count == 0) {
 				return null;
 			}
-			CardCtrl cardCtrl = remainderCards.Dequeue ();
+			CardCtrl cardCtrl = remainderCardCtrls.Dequeue ();
 			Card card = cardCtrl.card;
 			Text[] texts = cardCtrl.GetComponentsInChildren<Text> ();
 			Dictionary<string, Text> textDic = texts.ToDictionary (key => key.name, text => text);
 			textDic["cardName"].text = card.cardName;
 			if (card is CardBuild) {
-				textDic["costScience"].text = ((CardBuild) card).costScience.ToString ();
+				textDic["costScience"].text = ((CardBuild) card).input[0].ToString ();
 			}
 			return cardCtrl;
 		}
@@ -64,15 +63,19 @@ namespace testCC.Assets.script {
 			int index = 0;
 
 			for (int i = 0; i < currentCardLimitNum; i++) {
-				cardCtrl = currentCards[i];
+				cardCtrl = currentCardCtrls[i];
 				if (cardCtrl == null) {
 					continue;
 				}
-				if (i <= removeCardNum) {
+				if (cardCtrl.card.taked) {
+					currentCardCtrls[i] = null;
+					continue;
+				}
+				if (i < removeCardNum) {
 					Object.Destroy (cardCtrl.gameObject);
 				} else {
-					currentCards[index] = cardCtrl;
-					currentCards[i] = null;
+					currentCardCtrls[index] = cardCtrl;
+					currentCardCtrls[i] = null;
 					index++;
 				}
 			}
@@ -83,15 +86,18 @@ namespace testCC.Assets.script {
 					over = true;
 					break;
 				}
-				currentCards[i] = cardCtrl;
+				currentCardCtrls[i] = cardCtrl;
 			}
 
 		}
 		public void showCurrentCards () {
-			for (int i = 0; i < currentCardLimitNum; i++) {
-				if (currentCards[i] != null) {
-					currentCards[i].transform.DOMove (new Vector3 (cardWidth / 2 + i * cardWidth, Screen.height - cardWidth / 2, 0), 2);
+			for (int i = 0; i < currentCardCtrls.Length; i++) {
+				if (currentCardCtrls[i] == null) {
+					break;
 				}
+				currentCardCtrls[i].card.canAction = false;
+				currentCardCtrls[i].card.canTake = true;
+				currentCardCtrls[i].transform.DOMove (new Vector3 (Utils.cardWidth / 2 + i * Utils.cardWidth, Screen.height - Utils.cardWidth / 2, 0), 2);
 			}
 		}
 
@@ -112,18 +118,18 @@ namespace testCC.Assets.script {
 			print ("---reset");
 			// t1.Rewind (false);
 
-			while (remainderCards.Count != 0) {
-				print ("---remainderCards");
-				CardCtrl cardCtrl = remainderCards.Dequeue ();
-				Object.Destroy (cardCtrl.gameObject);
-			}
+			// while (remainderCardCtrls.Count != 0) {
+			// 	print ("---remainderCardCtrls");
+			// 	CardCtrl cardCtrl = remainderCardCtrls.Dequeue ();
+			// 	Object.Destroy (cardCtrl.gameObject);
+			// }
 
-			for (int i = 0; i < currentCardLimitNum; i++) {
-				if(currentCards[i]==null){
-					continue;
-				}
-				Object.Destroy (currentCards[i].gameObject);
-			}
+			// for (int i = 0; i < currentCardLimitNum; i++) {
+			// 	if (currentCardCtrls[i] == null) {
+			// 		continue;
+			// 	}
+			// 	Object.Destroy (currentCardCtrls[i].gameObject);
+			// }
 			over = false;
 			init ();
 		}

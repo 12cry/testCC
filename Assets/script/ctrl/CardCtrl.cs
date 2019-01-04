@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace testCC.Assets.script {
-    public class CardCtrl : MonoBehaviour {
+    public class CardCtrl : MonoBehaviour, IPointerClickHandler {
+
         public Card card;
-        void Start () {
-        }
-        void OnMouseDown () {
-            print("---onMouseDown");
+        public void OnPointerClick (PointerEventData eventData) {
             card.see ();
         }
     }
