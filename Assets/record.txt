@@ -20,13 +20,13 @@ orthographicSize
 
 
 
-see遮挡
-taked遮挡
-hide-button
-civ点
-cardTween.Rewind ();
+civ点、人口、仓库
 需求分析
 ui
+hide-button
+cardTween.Rewind ();
+see遮挡
+taked遮挡
 
 
 build
