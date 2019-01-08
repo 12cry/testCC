@@ -1,3 +1,19 @@
+Card Row
+Hand
+
+Technologies
+    Farm and Mine Technologies
+    Urban Building Technologies
+    Military Unit Technologies
+    Special Technologies
+    Governments
+Leaders
+Wonders
+Action Cards
+
+Military Cards
+
+
 bright
 
 build-science
@@ -21,12 +37,12 @@ orthographicSize
 
 
 civ点、人口、仓库
+
+地面
+拖拽
+升级高度
 需求分析
 ui
-hide-button
-cardTween.Rewind ();
-see遮挡
-taked遮挡
 
 
 build

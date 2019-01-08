@@ -70,11 +70,15 @@
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUI.cs" />
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUtils.cs" />
+     <Compile Include="Assets\script\common\GConfig.cs" />
+     <Compile Include="Assets\script\common\Singleton.cs" />
+     <Compile Include="Assets\script\common\Utils.cs" />
      <Compile Include="Assets\script\ctrl\CardCtrl.cs" />
      <Compile Include="Assets\script\ctrl\GCtrl.cs" />
      <Compile Include="Assets\script\ctrl\ResourceCtrl.cs" />
      <Compile Include="Assets\script\ctrl\UICtrl.cs" />
-     <Compile Include="Assets\script\GConfig.cs" />
+     <Compile Include="Assets\script\ctrl\WorldCtrl.cs" />
+     <Compile Include="Assets\script\model\Builder.cs" />
      <Compile Include="Assets\script\model\Card.cs" />
      <Compile Include="Assets\script\model\card\CardBuild.cs" />
      <Compile Include="Assets\script\model\card\CardLeader.cs" />
@@ -83,8 +87,7 @@
      <Compile Include="Assets\script\model\Cost.cs" />
      <Compile Include="Assets\script\model\Income.cs" />
      <Compile Include="Assets\script\model\Resource.cs" />
-     <Compile Include="Assets\script\Singleton.cs" />
-     <Compile Include="Assets\script\Utils.cs" />
+     <Compile Include="Assets\script\model\World.cs" />
      <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\record.txt" />
  <Reference Include="UnityEditor.StandardEvents">

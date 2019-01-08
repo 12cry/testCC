@@ -10,7 +10,7 @@ namespace testCC.Assets.script {
         }
 
         public void destroy () {
-            Object.Destroy (this);
+            Object.Destroy (this.gameObject);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using DG.Tweening;
 using Newtonsoft.Json;
 using testCC.Assets.script;
+using testCC.Assets.script.ctrl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,17 +14,20 @@ namespace testCC.Assets.script {
 	public class GCtrl : MonoBehaviour {
 
 		public CardCtrl cardCtrlPrefab;
-		public Queue<CardCtrl> remainderCardCtrls = new Queue<CardCtrl> ();
-		public CardCtrl[] currentCardCtrls;
-		Tweener t1;
-		int currentCardLimitNum = 3;
+		public Queue<CardCtrl> civilCardCtrls;
+		public CardCtrl[] rowCardCtrls;
+		int rowCardLimitNum = 3;
 		bool over = false;
+		Tweener t1;
+
 		void Start () {
 			init ();
 		}
 
 		void init () {
 			print ("---init");
+
+			UICtrl.instance.hideView ();
 
 			string json = File.ReadAllText ("./Assets/Resources/cardBuild.json", Encoding.UTF8);
 			List<CardBuild> cardBuildList = JsonConvert.DeserializeObject<List<CardBuild>> (json);
@@ -32,22 +36,24 @@ namespace testCC.Assets.script {
 			for (int i = 0; i < cardBuildList.Count; i++) {
 				cardList.Insert (Random.Range (i, i + 1), cardBuildList[i]);
 			}
+
+			civilCardCtrls = new Queue<CardCtrl> ();
 			cardList.ForEach (card => {
 				CardCtrl newCtrdCtrl = Instantiate<CardCtrl> (cardCtrlPrefab, cardCtrlPrefab.transform.parent);
 				newCtrdCtrl.card = card;
 				card.cardCtrl = newCtrdCtrl;
-				remainderCardCtrls.Enqueue (newCtrdCtrl);
+				civilCardCtrls.Enqueue (newCtrdCtrl);
 			});
 
-			currentCardCtrls = new CardCtrl[currentCardLimitNum];
+			rowCardCtrls = new CardCtrl[rowCardLimitNum];
 			// run ();
 		}
 
 		CardCtrl getANewCard () {
-			if (remainderCardCtrls.Count == 0) {
+			if (civilCardCtrls.Count == 0) {
 				return null;
 			}
-			CardCtrl cardCtrl = remainderCardCtrls.Dequeue ();
+			CardCtrl cardCtrl = civilCardCtrls.Dequeue ();
 			Card card = cardCtrl.card;
 			Text[] texts = cardCtrl.GetComponentsInChildren<Text> ();
 			Dictionary<string, Text> textDic = texts.ToDictionary (key => key.name, text => text);
@@ -63,44 +69,44 @@ namespace testCC.Assets.script {
 			int removeCardNum = 1;
 			int index = 0;
 
-			for (int i = 0; i < currentCardLimitNum; i++) {
-				cardCtrl = currentCardCtrls[i];
+			for (int i = 0; i < rowCardLimitNum; i++) {
+				cardCtrl = rowCardCtrls[i];
 				if (cardCtrl == null) {
 					continue;
 				}
 				if (cardCtrl.card.taked) {
-					currentCardCtrls[i] = null;
+					rowCardCtrls[i] = null;
 					continue;
 				}
 				if (i < removeCardNum) {
 					Object.Destroy (cardCtrl.gameObject);
 				} else {
-					currentCardCtrls[index] = cardCtrl;
-					currentCardCtrls[i] = null;
+					rowCardCtrls[index] = cardCtrl;
+					rowCardCtrls[i] = null;
 					index++;
 				}
 			}
 
-			for (int i = index; i < currentCardLimitNum; i++) {
+			for (int i = index; i < rowCardLimitNum; i++) {
 				cardCtrl = getANewCard ();
 				if (cardCtrl == null) {
 					over = true;
 					break;
 				}
-				currentCardCtrls[i] = cardCtrl;
+				rowCardCtrls[i] = cardCtrl;
 			}
 
 		}
 		public void showCurrentCards () {
-			for (int i = 0; i < currentCardCtrls.Length; i++) {
-				if (currentCardCtrls[i] == null) {
+			for (int i = 0; i < rowCardCtrls.Length; i++) {
+				if (rowCardCtrls[i] == null) {
 					break;
 				}
-				currentCardCtrls[i].card.canAction = false;
-				currentCardCtrls[i].card.canTake = true;
-				currentCardCtrls[i].transform.DOMove (new Vector3 (Utils.cardWidth / 2 + i * Utils.cardWidth, Screen.height - Utils.cardWidth / 2, 0), 2);
+				rowCardCtrls[i].card.actionable = false;
+				rowCardCtrls[i].card.takeable = true;
+				rowCardCtrls[i].transform.DOMove (new Vector3 (Utils.cardWidth / 2 + i * Utils.cardWidth, Screen.height - Utils.cardWidth / 2, 0), Utils.cardMoveSpeed);
 
-				currentCardCtrls[i].card.takeCiv = 1 + i / 5;
+				rowCardCtrls[i].card.takeCiv = 1 + i / 5;
 			}
 		}
 
@@ -121,17 +127,17 @@ namespace testCC.Assets.script {
 			print ("---reset");
 			// t1.Rewind (false);
 
-			// while (remainderCardCtrls.Count != 0) {
-			// 	print ("---remainderCardCtrls");
-			// 	CardCtrl cardCtrl = remainderCardCtrls.Dequeue ();
+			// while (civilCardCtrls.Count != 0) {
+			// 	print ("---civilCardCtrls");
+			// 	CardCtrl cardCtrl = civilCardCtrls.Dequeue ();
 			// 	Object.Destroy (cardCtrl.gameObject);
 			// }
 
-			// for (int i = 0; i < currentCardLimitNum; i++) {
-			// 	if (currentCardCtrls[i] == null) {
+			// for (int i = 0; i < rowCardLimitNum; i++) {
+			// 	if (rowCardCtrls[i] == null) {
 			// 		continue;
 			// 	}
-			// 	Object.Destroy (currentCardCtrls[i].gameObject);
+			// 	Object.Destroy (rowCardCtrls[i].gameObject);
 			// }
 			over = false;
 			init ();
